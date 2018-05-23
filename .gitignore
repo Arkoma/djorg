@@ -1,2 +1,4 @@
 djorg/secret_settings.py
 ...bfg-report/
+settings_secret.py
+.env
