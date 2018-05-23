@@ -1,7 +1,26 @@
 <h1>Bookmarks!</h1>
 
 {% if bookmarks %}
-	Yes, we have bookmarks
+
+	<ol>
+		{% for bookmark in bookmarks %}
+		<li>
+			<a href={{ bookmark.url }} target=blank>{{ bookmark.name }}</a>
+			<blockquote>
+				{{ bookmark.notes }}
+			</blockquote>
+			<div>
+				<b>created at: </b><i>{{ bookmark.created_at }}</i>
+			</div>
+			<div>
+				<b>last modified at: </b><i>{{ bookmark.last_modified }}</i>
+			</div>
+			<br>
+			<br>
+		</li>
+		{% endfor %}
+	</ol>
+
 {% else %}
 	No bookmarks here
 {% endif %}
