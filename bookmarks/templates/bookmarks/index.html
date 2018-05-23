@@ -10,7 +10,13 @@
 				{{ bookmark.notes }}
 			</blockquote>
 			<div>
-				<b>created at: </b><i>{{ bookmark.created_at }}</i>
+
+				<b>created at: </b><i>
+				{% load tz %}
+				{% localtime on %}
+				{{ bookmark.created_at }}
+				{% endlocaltime %}
+			</i>
 			</div>
 			<div>
 				<b>last modified at: </b><i>{{ bookmark.last_modified }}</i>
