@@ -28,8 +28,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 HOSTS = config('ALLOWED_HOSTS')
-ALLOWED_HOSTS = [HOSTS]
-
+print('Hosts: ', HOSTS) 
+ALLOWED_HOSTS = ['localhost','.127.0.0.1','.herokuapp.com'] # HOSTS
 
 # Application definition
 
