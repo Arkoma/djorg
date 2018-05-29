@@ -9,3 +9,4 @@ pytz==2018.4
 setuptools==39.2.0
 wheel==0.31.1
 whitenoise==3.3.1
+django-allauth==0.36.0
