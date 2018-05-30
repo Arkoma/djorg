@@ -14,6 +14,11 @@ import os
 from decouple import config
 import dj_database_url
 
+# from rest_framework.authtoken.models import Token
+# 
+# token = Token.objects.create(user=...)
+# print(token.key)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,6 +42,8 @@ INSTALLED_APPS = [
     'bookmarks',
     'notes',
     'rest_framework',
+    'rest_framework.authtoken',
+    'graphene_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -47,9 +54,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.google',
+#   'allauth.socialaccount.providers.facebook',
+#   'allauth.socialaccount.providers.github',
+#   'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -92,12 +99,8 @@ WSGI_APPLICATION = 'djorg.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), # config('DATABASE_URL')),
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL')),
 }
 
 # DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
@@ -145,8 +148,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        
-    ] 
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
 }
 
 SITE_ID = 1
+
+# Graphene
+
+GRAPHENE = {
+    'SCHEMA': 'notes.schema.schema' # dir.fliename.varname
+}

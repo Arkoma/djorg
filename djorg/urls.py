@@ -20,15 +20,37 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 from notes.api import NoteViewSet
 
+from graphene_django.views import GraphQLView
+
+from importlib import import_module
+
+from django.conf.urls import include, url
+
+from allauth.socialaccount import providers
+
+# from . import app_settings
+
 router = routers.DefaultRouter()
 router.register(r'notes', NoteViewSet)
 
-
 urlpatterns = [
     path('', TemplateView.as_view(template_name='djorg_base.html')),
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
     path('api/', include(router.urls)),
     path('bookmarks/', include('bookmarks.urls')),
     path('admin/', admin.site.urls),
-    path('signin/', TemplateView.as_view(template_name='signin/index.html')),
-
+    path('accounts/profile/', include('bookmarks.urls')),
+    url(r'^', include('allauth.account.urls')),
 ]
+
+# if app_settings.SOCIALACCOUNT_ENABLED:
+#    urlpatterns += [url(r'^social/', include('allauth.socialaccount.urls'))]
+
+for provider in providers.registry.get_list():
+    try:
+        prov_mod = import_module(provider.get_package() + '.urls')
+    except ImportError:
+        continue
+    prov_urlpatterns = getattr(prov_mod, 'urlpatterns', None)
+    if prov_urlpatterns:
+        urlpatterns += prov_urlpatterns

@@ -2,7 +2,9 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Djorg it baby!</title>
+		<title>{% block head_title %}Djorg it Baby!{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   </head>
@@ -15,7 +17,36 @@
 				 </p>
 			</div>
 			<p>
-				<a href="bookmarks/">bookmarks</a>
+				{% block body %}
+
+					{% if messages %}
+					<div>
+					<strong>Messages:</strong>
+					<ul>
+						{% for message in messages %}
+						<li>{{message}}</li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% endif %}
+
+				<div>
+					<strong>Menu:</strong>
+					<ul>
+						{% if user.is_authenticated %}
+						<li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+						<li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+						{% else %}
+						<li><a href="{% url 'account_login' %}">Sign In</a></li>
+						<li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+						{% endif %}
+					</ul>
+				</div>
+				{% block content %}
+				{% endblock %}
+				{% endblock %}
+				{% block extra_body %}
+				{% endblock %}
 			</p> 
 		</div> 
   </body>
