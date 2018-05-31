@@ -16,6 +16,7 @@ iso8601==0.1.12
 oauthlib==2.1.0
 promise==2.1
 psycopg2-binary==2.7.4
+PyJWT==1.6.4
 python-decouple==3.1
 python3-openid==3.1.0
 pytz==2018.4
