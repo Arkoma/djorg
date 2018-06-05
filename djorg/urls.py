@@ -19,12 +19,12 @@ from django.views.generic import TemplateView
 
 from rest_framework import routers
 from notes.api import NoteViewSet
-
+from rest_framework.authtoken import views
 from graphene_django.views import GraphQLView
 
 from importlib import import_module
 
-from django.conf.urls import include, url
+from django.conf.urls import include, url, re_path
 
 from allauth.socialaccount import providers
 
@@ -41,6 +41,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/profile/', include('bookmarks.urls')),
     url(r'^', include('allauth.account.urls')),
+    re_path(r'^api-token-auth/', views.obtain_auth_token),
 ]
 
 # if app_settings.SOCIALACCOUNT_ENABLED:
